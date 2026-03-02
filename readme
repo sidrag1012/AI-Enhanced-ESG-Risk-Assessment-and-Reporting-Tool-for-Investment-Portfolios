@@ -402,31 +402,4 @@ This project is licensed under the MIT License - see LICENSE file for details.
 
 ---
 
-## 📞 Support
 
-For questions or issues:
-- Open an issue on GitHub
-- Email: your.email@example.com
-- Documentation: [Project Wiki](https://github.com/yourusername/esg-risk-assessment/wiki)
-
----
-
-## 🎓 Academic Citation
-
-If using this project for academic work:
-
-```
-@mastersthesis{your_thesis_2024,
-  title={AI-Enhanced ESG Risk Assessment and Reporting Tool for Investment Portfolios},
-  author={Your Name},
-  year={2024},
-  school={Your University},
-  type={M.Tech Thesis in Data Science}
-}
-```
-
----
-
-**Last Updated**: December 2024  
-**Version**: 1.0.0  
-**Maintainer**: Your Name
