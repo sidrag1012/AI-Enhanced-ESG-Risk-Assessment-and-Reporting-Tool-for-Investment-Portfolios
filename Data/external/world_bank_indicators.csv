@@ -1,0 +1,11 @@
+country,co2_emissions_per_capita,renewable_energy_pct,forest_area_pct,corruption_index,human_development_index
+United States,15.2,12.6,33.9,67,0.926
+United Kingdom,5.4,13.8,13.1,77,0.932
+Germany,8.5,17.4,32.7,80,0.947
+Japan,8.7,7.6,68.5,73,0.925
+China,7.4,12.4,23.0,42,0.768
+France,4.6,11.7,31.5,69,0.903
+Canada,15.4,18.9,38.7,77,0.936
+Australia,16.8,7.1,16.2,75,0.951
+India,1.9,9.8,24.1,40,0.645
+South Korea,12.3,2.7,63.9,62,0.925
