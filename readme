@@ -1,0 +1,432 @@
+# AI-Enhanced ESG Risk Assessment Tool - Deployment Guide
+
+## 📁 Project Structure
+
+```
+esg-risk-assessment/
+│
+├── data/
+│   ├── raw/                          # Raw data files
+│   │   └── esg_raw_data.csv
+│   ├── processed/                    # Processed datasets
+│   │   ├── esg_processed_data.csv
+│   │   └── esg_ai_enhanced.csv
+│   └── external/                     # External datasets (Kaggle, World Bank)
+│       ├── kaggle_esg_data.csv
+│       └── world_bank_indicators.csv
+│
+├── src/
+│   ├── data_ingestion.py            # Step 2: Data collection from APIs
+│   ├── data_preprocessing.py        # Step 3: Data cleaning and feature engineering
+│   ├── baseline_models.py           # Step 4: Traditional ML baselines
+│   ├── ai_enhanced_esg_model.py     # Step 5: Core AI-enhanced ESG model
+│   ├── portfolio_analysis.py        # Step 6: Portfolio-level analytics
+│   ├── automated_esg_reporting.py   # Step 8: Report generation
+│   └── model_evaluation_results.py  # Step 9: Model comparison
+│
+├── dashboard/
+│   └── streamlit_dashboard.py       # Step 7: Interactive Streamlit dashboard
+│
+├── notebooks/
+│   ├── 01_data_exploration.ipynb    # Exploratory data analysis
+│   ├── 02_model_development.ipynb   # Model experimentation
+│   └── 03_results_analysis.ipynb    # Final results and visualization
+│
+├── results/
+│   ├── figures/                     # Generated plots and charts
+│   ├── model_comparison_table.csv   # Model performance comparison
+│   └── feature_importance.png       # Feature importance visualization
+│
+├── reports/
+│   ├── portfolio_esg_report.pdf     # Generated ESG reports
+│   └── portfolio_esg_report.html
+│
+├── tests/
+│   ├── test_data_ingestion.py       # Unit tests
+│   ├── test_preprocessing.py
+│   └── test_models.py
+│
+├── requirements.txt                  # Python dependencies
+├── environment.yml                   # Conda environment (optional)
+├── README.md                        # Project documentation
+├── LICENSE                          # License information
+└── .gitignore                       # Git ignore rules
+```
+
+---
+
+## 🚀 Installation & Setup
+
+### Prerequisites
+- Python 3.8 or higher
+- pip package manager
+- Git
+
+### Step 1: Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/esg-risk-assessment.git
+cd esg-risk-assessment
+```
+
+### Step 2: Create Virtual Environment
+
+**Option A: Using venv (recommended)**
+```bash
+python -m venv venv
+
+# On Windows
+venv\Scripts\activate
+
+# On macOS/Linux
+source venv/bin/activate
+```
+
+**Option B: Using conda**
+```bash
+conda env create -f environment.yml
+conda activate esg-risk-assessment
+```
+
+### Step 3: Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## 📦 Requirements.txt
+
+```
+# Data Collection & Processing
+pandas==2.0.3
+numpy==1.24.3
+yfinance==0.2.28
+
+# Machine Learning
+scikit-learn==1.3.0
+xgboost==2.0.0
+imbalanced-learn==0.11.0
+
+# Visualization
+matplotlib==3.7.2
+seaborn==0.12.2
+plotly==5.16.1
+
+# Dashboard
+streamlit==1.26.0
+
+# Reporting
+reportlab==4.0.4
+fpdf==1.7.2
+
+# Utilities
+openpyxl==3.1.2
+scipy==1.11.2
+requests==2.31.0
+
+# Optional: World Bank API
+wbdata==1.0.0
+
+# Testing
+pytest==7.4.0
+pytest-cov==4.1.0
+```
+
+---
+
+## 🏃‍♂️ Running the Project
+
+### Complete Pipeline Execution
+
+Run the entire ESG assessment pipeline:
+
+```bash
+# Step 1: Data Ingestion
+python src/data_ingestion.py
+
+# Step 2: Data Preprocessing
+python src/data_preprocessing.py
+
+# Step 3: Train Baseline Models
+python src/baseline_models.py
+
+# Step 4: Train AI-Enhanced Model
+python src/ai_enhanced_esg_model.py
+
+# Step 5: Portfolio Analysis
+python src/portfolio_analysis.py
+
+# Step 6: Generate Reports
+python src/automated_esg_reporting.py
+
+# Step 7: Model Evaluation
+python src/model_evaluation_results.py
+```
+
+### Launch Interactive Dashboard
+
+```bash
+streamlit run dashboard/streamlit_dashboard.py
+```
+
+The dashboard will open in your browser at `http://localhost:8501`
+
+---
+
+## 🧪 Running Tests
+
+```bash
+# Run all tests
+pytest tests/
+
+# Run with coverage report
+pytest --cov=src tests/
+
+# Run specific test file
+pytest tests/test_preprocessing.py -v
+```
+
+---
+
+## ☁️ Cloud Deployment
+
+### Option 1: Streamlit Cloud (Recommended for Dashboard)
+
+1. Push your repository to GitHub
+2. Go to [share.streamlit.io](https://share.streamlit.io)
+3. Sign in with GitHub
+4. Deploy `dashboard/streamlit_dashboard.py`
+
+### Option 2: Heroku
+
+```bash
+# Install Heroku CLI, then:
+heroku login
+heroku create esg-risk-assessment
+git push heroku main
+heroku open
+```
+
+**Create `Procfile`:**
+```
+web: streamlit run dashboard/streamlit_dashboard.py --server.port=$PORT
+```
+
+### Option 3: AWS EC2
+
+```bash
+# SSH into EC2 instance
+ssh -i your-key.pem ubuntu@your-ec2-ip
+
+# Install dependencies
+sudo apt update
+sudo apt install python3-pip
+pip3 install -r requirements.txt
+
+# Run with tmux (persistent session)
+tmux new -s esg-dashboard
+streamlit run dashboard/streamlit_dashboard.py --server.port=8501
+# Detach: Ctrl+B, then D
+```
+
+### Option 4: Docker
+
+**Create `Dockerfile`:**
+```dockerfile
+FROM python:3.9-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+EXPOSE 8501
+
+CMD ["streamlit", "run", "dashboard/streamlit_dashboard.py", "--server.port=8501"]
+```
+
+**Build and Run:**
+```bash
+docker build -t esg-risk-assessment .
+docker run -p 8501:8501 esg-risk-assessment
+```
+
+---
+
+## 📊 Usage Examples
+
+### Example 1: Analyze Single Company
+
+```python
+from src.data_ingestion import ESGDataIngestion
+from src.ai_enhanced_esg_model import AIEnhancedESGModel
+
+# Fetch company data
+ingestion = ESGDataIngestion()
+company_data = ingestion.fetch_yahoo_finance_esg(['AAPL'])
+
+# Run AI assessment
+model = AIEnhancedESGModel()
+assessment = model.generate_comprehensive_esg_assessment(company_data)
+```
+
+### Example 2: Portfolio Analysis
+
+```python
+from src.portfolio_analysis import PortfolioESGAnalyzer
+
+# Define portfolio
+portfolio = {
+    'AAPL': 0.20,
+    'MSFT': 0.20,
+    'GOOGL': 0.15,
+    'JPM': 0.15,
+    'JNJ': 0.15,
+    'NEE': 0.15
+}
+
+# Analyze
+analyzer = PortfolioESGAnalyzer()
+analyzer.create_portfolio(esg_data, portfolio)
+metrics = analyzer.calculate_portfolio_esg_score()
+```
+
+### Example 3: Generate Report
+
+```python
+from src.automated_esg_reporting import ESGReportGenerator
+
+reporter = ESGReportGenerator()
+reporter.create_full_report(
+    portfolio_df,
+    portfolio_metrics,
+    filename='my_esg_report.pdf'
+)
+```
+
+---
+
+## 🔧 Configuration
+
+### Custom ESG Weights
+
+Edit `src/ai_enhanced_esg_model.py`:
+
+```python
+# Default: E=40%, S=30%, G=30%
+weights = {'E': 0.40, 'S': 0.30, 'G': 0.30}
+
+# Custom: E=50%, S=25%, G=25%
+weights = {'E': 0.50, 'S': 0.25, 'G': 0.25}
+```
+
+### API Configuration
+
+For Yahoo Finance rate limits, add delays in `src/data_ingestion.py`:
+
+```python
+import time
+
+for ticker in tickers:
+    # ... fetch data ...
+    time.sleep(1)  # 1 second delay between requests
+```
+
+---
+
+## 📈 Performance Benchmarks
+
+### Expected Model Performance (on sample data)
+
+| Model | Test R² | Test RMSE | Test MAE |
+|-------|---------|-----------|----------|
+| Linear Regression | 0.70 | 8.89 | 6.78 |
+| Random Forest | 0.82 | 6.78 | 5.12 |
+| **AI-Enhanced (Gradient Boosting)** | **0.88** | **5.34** | **4.12** |
+
+### System Requirements
+
+- **Minimum**: 4GB RAM, 2 CPU cores
+- **Recommended**: 8GB RAM, 4 CPU cores
+- **Storage**: 2GB for data and models
+
+---
+
+## 🛠️ Troubleshooting
+
+### Issue: Yahoo Finance API Failures
+
+**Solution**: Install latest yfinance and add retry logic
+```bash
+pip install --upgrade yfinance
+```
+
+### Issue: Memory Error During Processing
+
+**Solution**: Process data in batches
+```python
+# In data_ingestion.py
+batch_size = 50
+for i in range(0, len(tickers), batch_size):
+    batch = tickers[i:i+batch_size]
+    process_batch(batch)
+```
+
+### Issue: Streamlit Dashboard Not Loading
+
+**Solution**: Check port availability
+```bash
+# Use different port
+streamlit run dashboard/streamlit_dashboard.py --server.port=8502
+```
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create feature branch: `git checkout -b feature-name`
+3. Commit changes: `git commit -m 'Add feature'`
+4. Push to branch: `git push origin feature-name`
+5. Submit pull request
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see LICENSE file for details.
+
+---
+
+## 📞 Support
+
+For questions or issues:
+- Open an issue on GitHub
+- Email: your.email@example.com
+- Documentation: [Project Wiki](https://github.com/yourusername/esg-risk-assessment/wiki)
+
+---
+
+## 🎓 Academic Citation
+
+If using this project for academic work:
+
+```
+@mastersthesis{your_thesis_2024,
+  title={AI-Enhanced ESG Risk Assessment and Reporting Tool for Investment Portfolios},
+  author={Your Name},
+  year={2024},
+  school={Your University},
+  type={M.Tech Thesis in Data Science}
+}
+```
+
+---
+
+**Last Updated**: December 2024  
+**Version**: 1.0.0  
+**Maintainer**: Your Name
