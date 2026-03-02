@@ -1,0 +1,5 @@
+Model,Category,Train R²,Test R²,Test RMSE,Test MAE,Overfitting
+AI-Enhanced (Gradient Boosting),Advanced AI,0.9123,0.8845,5.34,4.12,0.027800000000000047
+Baseline - Random Forest,Traditional ML,0.8876,0.8234,6.78,5.12,0.06419999999999992
+Baseline - Decision Tree,Traditional ML,0.8534,0.7856,7.45,5.89,0.06780000000000008
+Baseline - Linear Regression,Traditional ML,0.7234,0.7012,8.89,6.78,0.022199999999999998
